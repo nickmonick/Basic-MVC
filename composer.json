@@ -1,0 +1,12 @@
+{
+    "name": "mvc/project",
+    "type": "n",
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "app/",
+            "MVC\\Controller\\": "app/Controllers/"
+        }
+    }
+}
