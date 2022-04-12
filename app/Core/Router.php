@@ -40,8 +40,10 @@ class Router
 
         foreach ($this->routes[$method] as $route => $action) {
             if ($uri === $route) {
-                $this->getClassAndMethod($action);
-                return true;
+                if($this->getClassAndMethod($action)) {
+                    return true;
+                }
+                else return false;
             }
         }
         return false;
@@ -53,16 +55,16 @@ class Router
      * @param string $action
      * @return void
      */
-    private function getClassAndMethod(string $action): void
+    private function getClassAndMethod(string $action): bool
     {
         $classAndMethod = explode('@', $action);
 
         if (class_exists($classAndMethod[0]) && method_exists($classAndMethod[0], $classAndMethod[1])) {
             $this->controller = $classAndMethod[0];
             $this->action = $classAndMethod[1];
+            return true;
         }
-
-
+        return false;
     }
 
 }
