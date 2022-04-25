@@ -16,7 +16,6 @@ class Router
     protected array $routes = [];
 
     private Request $request;
-    public View $view;
 
     /**
      * Current viewing controlller
@@ -34,7 +33,6 @@ class Router
     public function __construct()
     {
         $this->request = new Request;
-        $this->view = new View;
     }
 
     /**
@@ -57,7 +55,7 @@ class Router
             if ($this->getClassAndMethod("$action"))
                 $this->routes[$method][$uri] = $action;
             else
-                throw new Exception('Invalid Class or Method');
+                throw new Exception('Invalid Class or Action');
         else
             throw new Exception('Invalid Method');
     }
@@ -73,16 +71,17 @@ class Router
         $uri = $this->request->getUri();
         $method = $this->request->getMethod();
 
-        foreach ($this->routes[$method] as $route => $action) {
-            if ($uri === $route) {
-                if($this->getClassAndMethod($action)) {
-                    $className = "MVC\\Controller\\".$this->controller;
-                    $classInstance = new $className;
-                    $action = $this->action;
-                    return $this->view->view($classInstance->$action());
+        if (key_exists($method,$this->routes)) {
+            foreach ($this->routes[$method] as $route => $action) {
+                if ($uri === $route) {
+                    if ($this->getClassAndMethod($action)) {
+                        $className = "MVC\\Controller\\" . $this->controller;
+                        $classInstance = new $className;
+                        $action = $this->action;
+                        return $classInstance->$action();
+                    } else
+                        return false;
                 }
-                else
-                    return false;
             }
         }
         return false;

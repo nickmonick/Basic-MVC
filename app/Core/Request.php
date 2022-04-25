@@ -23,7 +23,12 @@ class Request
         return $this->getMethod() === 'post';
     }
 
-    public function getPost(): array
+    public function isGet(): bool
+    {
+        return $this->getMethod() === 'get';
+    }
+
+    public static function getPost(): array
     {
         return $_POST;
     }

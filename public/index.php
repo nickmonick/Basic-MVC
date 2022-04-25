@@ -6,7 +6,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 $app = new Application;
 
-$app->get('/', 'HomeController@index')
+$app->get('/', 'HomeController@imdex')
     ->post('/', 'HomeController@index');
 
 $app->resolve();
