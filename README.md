@@ -1,7 +1,7 @@
 # Ultra Light Weight PHP MVC
 
 <h1>Running the app</h1>
-Open the terminal in the root app directory
+Open the terminal in the root project directory
 <br>
 Run the command "composer init"
 <br>
@@ -24,4 +24,5 @@ The method added to routes are class that are to be created in the app/Controlle
 - Add Models
 - Add View layouts
 - Add more middleware
+- Better/More Error Handling
 
