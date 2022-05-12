@@ -44,20 +44,20 @@ class Router
      * @return void
      * @throws \Exception
      */
-    protected function add(string $method, string $uri, string $action)
+    protected function add(string $method, string $uri, string $action): void
     {
         $valid = match ($method) {
             "get", "post" => true,
             default => false
         };
 
-        if ($valid)
-            if ($this->getClassAndMethod("$action"))
-                $this->routes[$method][$uri] = $action;
-            else
-                throw new Exception('Invalid Class or Action');
-        else
+        if (!$valid)
             throw new Exception('Invalid Method');
+
+        if (!$this->getClassAndMethod("$action"))
+            throw new Exception('Invalid Class or Action');
+
+        $this->routes[$method][$uri] = $action;
     }
 
 
@@ -71,17 +71,18 @@ class Router
         $uri = $this->request->getUri();
         $method = $this->request->getMethod();
 
-        if (key_exists($method,$this->routes)) {
-            foreach ($this->routes[$method] as $route => $action) {
-                if ($uri === $route) {
-                    if ($this->getClassAndMethod($action)) {
-                        $className = "MVC\\Controller\\" . $this->controller;
-                        $classInstance = new $className;
-                        $action = $this->action;
-                        return $classInstance->$action();
-                    } else
-                        return false;
-                }
+        if (!key_exists($method,$this->routes))
+            return false;
+
+        foreach ($this->routes[$method] as $route => $action) {
+            if ($uri === $route) {
+                if ($this->getClassAndMethod($action)) {
+                    $className = "MVC\\Controller\\" . $this->controller;
+                    $classInstance = new $className;
+                    $action = $this->action;
+                    return $classInstance->$action();
+                } else
+                    return false;
             }
         }
         return false;
@@ -105,8 +106,9 @@ class Router
             $this->controller = $classAndMethod[0];
             $this->action = $classAndMethod[1];
             return true;
-        } else
-            return false;
+        }
+
+        return false;
     }
 
 }

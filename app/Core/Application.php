@@ -15,11 +15,10 @@ class Application extends Router
      */
     public function resolve(): void
     {
-        if (is_bool($this->match())) {
+        if (is_bool($this->match()))
             echo $this->match() ? $this->match() : "Route Not Found";
-        } else {
-            echo $this->match();
-        }
+
+        echo $this->match();
     }
 
     /**
