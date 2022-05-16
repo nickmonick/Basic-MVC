@@ -68,23 +68,22 @@ class Router
      */
     public function match(): bool | string
     {
-        $uri = $this->request->getUri();
         $method = $this->request->getMethod();
+        $uri = $this->request->getUri();
+        $routes = $this->getRouteMap($method);
 
-        if (!key_exists($method,$this->routes))
-            return false;
+        if (!key_exists($method,$this->routes) || !key_exists($uri,$routes))
+            return View::errorPage("404");
 
-        foreach ($this->routes[$method] as $route => $action) {
-            if ($uri === $route) {
-                if ($this->getClassAndMethod($action)) {
-                    $className = "MVC\\Controller\\" . $this->controller;
-                    $classInstance = new $className;
-                    $action = $this->action;
-                    return $classInstance->$action();
-                } else
-                    return false;
-            }
+        $action = $routes[$uri];
+
+        if ($this->getClassAndMethod($action)) {
+            $className = "MVC\\Controller\\" . $this->controller;
+            $classInstance = new $className;
+            $action = $this->action;
+            return $classInstance->$action();
         }
+
         return false;
     }
 
@@ -92,7 +91,7 @@ class Router
      * Validates a given class from the app and adds the controller class and action to the properties
      *
      * @param string $action
-     * @return void
+     * @return bool
      */
     private function getClassAndMethod(string $action): bool
     {
@@ -109,6 +108,17 @@ class Router
         }
 
         return false;
+    }
+
+    /**
+     * Returns the keys of the urls in the routes table that are under the given request method
+     *
+     * @param string $method
+     * @return array
+     */
+    private function getRouteMap(string $method):array
+    {
+        return $this->routes[$method];
     }
 
 }

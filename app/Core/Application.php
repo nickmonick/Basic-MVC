@@ -15,10 +15,13 @@ class Application extends Router
      */
     public function resolve(): void
     {
-        if (is_bool($this->match()))
-            echo $this->match() ? $this->match() : "Route Not Found";
+        $content = $this->match();
+        if (is_bool($content) && !$this->match())
+            echo View::errorPage("error","Something Went Wrong");
+        elseif (is_string($content)) {
+            echo $content;
+        }
 
-        echo $this->match();
     }
 
     /**

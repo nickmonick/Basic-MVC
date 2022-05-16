@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace MVC\Controller;
 
+use MVC\Core\BaseController;
+use MVC\Core\Database;
 use MVC\Core\Request;
 use MVC\Core\View;
+use MVC\Model\UserModel;
 
-class HomeController
+class HomeController extends BaseController
 {
     private Request $request;
     public function __construct()
@@ -17,10 +20,11 @@ class HomeController
 
     public function index(): string
     {
-        if ($this->request->isPost()) {
-            return json_encode('Post');
-        }
-
         return View::render('Home/index');
+    }
+
+    public function post()
+    {
+        return json_encode('Posted Successfully!');
     }
 }
