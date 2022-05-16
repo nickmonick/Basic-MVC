@@ -20,9 +20,10 @@ The method added to routes are class that are to be created in the app/Controlle
 <h1>To Do</h1>
 (feel free to contribute)
 
-- Add Database Integration/Functionality
-- Add Models
-- Add View layouts
-- Add more middleware
-- Better/More Error Handling
+- Add Database Integration/Functionality - [x]
+- Add Models- [-]
+- Add View layouts- [-]
+- Add more middleware- [ ]
+- Better/More Error Handling- [ ]
+- Add Documentation
 
