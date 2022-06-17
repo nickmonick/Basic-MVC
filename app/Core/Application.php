@@ -20,6 +20,8 @@ class Application extends Router
             echo View::errorPage("error","Something Went Wrong");
         elseif (is_string($content)) {
             echo $content;
+        } elseif (is_callable($content)) {
+            call_user_func($content);
         }
 
     }

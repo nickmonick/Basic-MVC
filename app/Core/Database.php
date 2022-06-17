@@ -12,9 +12,9 @@ class Database
     private string $host = 'localhost';
     private string $username = 'root';
     private string $password = '';
-    public string $database = 'test';
+    public string $database = 'swift';
 
-    private $dbh;
+    private PDO $dbh;
     private $stmt;
     private $error;
 

@@ -8,6 +8,7 @@ use MVC\Core\BaseController;
 use MVC\Core\Request;
 use MVC\Core\View;
 use MVC\Model\UserModel;
+use PDO;
 
 class RegisterController extends BaseController
 {
@@ -27,11 +28,15 @@ class RegisterController extends BaseController
         return View::render('Register/index');
     }
 
+
     public function register(): string
     {
-        $post = $this->request->getPost();
-        $this->model->loadData($post);
-        $this->dump($this->model);
-        return "Success";
+        $this->model->loadData($_POST);
+        $tb = $this->model->tableName;
+        $this->model->db->query("INSERT INTO $tb (username,password) VALUES(:username, :password)");
+        $this->model->db->bind(":username", $this->model->username);
+        $this->model->db->bind(":password", password_hash($this->model->password,PASSWORD_BCRYPT));
+        $this->model->db->execute();
+        return "Registered";
     }
 }

@@ -26,7 +26,7 @@ abstract class BaseController
      * @param array|object $var
      * @return void
      */
-    protected function dump(array | object $var): void
+    protected function dump(array | object | string $var): void
     {
         echo "<pre>";
         var_dump($var);

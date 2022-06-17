@@ -20,7 +20,14 @@ class HomeController extends BaseController
 
     public function index(): string
     {
-        return View::render('Home/index');
+        $model = new UserModel();
+        $_SESSION["ID"] = 4;
+        if(isset($_SESSION['ID'])) {
+            $id = $_SESSION['ID'];
+            $model->db->query("SELECT username FROM $model->tableName WHERE id='$id'");
+            $name = $model->db->single()[0];
+        }
+        return View::render('Home/index',['title' => "Welcome $name"]);
     }
 
     public function post()
