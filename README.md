@@ -12,7 +12,7 @@ cd to the public folder and enter "php -S localhost:1000" (you can change to por
 
 <h1>Developing the app</h1>
 The index.php in the public folder is where routes are added, as seen as the examples already there.
-The method added to routes are class that are to be created in the app/Controllers folder, the 
+The method added to routes are class that are to be created in the app/Controllers folder.
 <br>
 
 ---
@@ -27,6 +27,6 @@ The method added to routes are class that are to be created in the app/Controlle
 - Add Models- [-]
 - Add View layouts- [-]
 - Add more middleware- [ ]
-- Better/More Error Handling- [ ]
+- Better/More Error Handling- [-]
 - Add Documentation - [ ]
 
