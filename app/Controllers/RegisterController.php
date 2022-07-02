@@ -28,15 +28,16 @@ class RegisterController extends BaseController
         return View::render('Register/index');
     }
 
-
     public function register(): string
     {
-        $this->model->loadData($_POST);
-        $tb = $this->model->tableName;
-        $this->model->db->query("INSERT INTO $tb (username,password) VALUES(:username, :password)");
-        $this->model->db->bind(":username", $this->model->username);
-        $this->model->db->bind(":password", password_hash($this->model->password,PASSWORD_BCRYPT));
-        $this->model->db->execute();
+        $model = new UserModel($_POST);
+    /*
+        $tb = $model->tableName;
+        $model->query("INSERT INTO $tb (username,password) VALUES(:username, :password)");
+        $model->bind(":username", $model->username);
+        $model->bind(":password", password_hash($model->password,PASSWORD_BCRYPT));
+        $model->execute();
+    */
         return "Registered";
     }
 }

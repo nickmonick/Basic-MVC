@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace MVC\Core;
 
-abstract class Model
+use Exception;
+use PDO;
+
+abstract class Model extends Database
 {
     /**
      * Gets all the columns in the given table name given from the model and adds properties that can be used from the models object
      */
-    public Database $db;
-    private bool $canAdd = true;
 
     public function __construct(array $data = null)
     {
+        parent::__construct();
         $tableName = $this->{"tableName"};
-        $this->db = new Database;
-        $this->db->query( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$tableName."'");
-        $columns = $this->db->resultSet();
-
+        $stmt = $this->dbh->query( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$tableName."'", PDO::FETCH_OBJ );
+        $columns = $stmt->fetchAll();
         foreach ($columns as $column) {
-            if ($column->TABLE_SCHEMA === $this->db->database) {
+            if ($column->TABLE_SCHEMA === $this->database) {
                 $this->{$column->COLUMN_NAME} = null;
             }
         }
@@ -28,6 +28,7 @@ abstract class Model
         if (!empty($data)) {
             $this->loadData($data);
         }
+
     }
 
     /**
@@ -43,26 +44,15 @@ abstract class Model
             $currentRules = explode("|",$this->{"validation"}[$key]);
 
             foreach ($currentRules as $rule) {
-                preg_match_all('!\d+!', $rule,$regexResult);
-                $ruleValue = $regexResult[0][0];
-                $rule = str_replace("_", "", $rule);
-                $rule = preg_replace('/[0-9]+/', '', $rule);
-                $rule = preg_replace('/[[]]/', '', $rule);
-                preg_match_all("/^[a-zA-Z0-9]+$/",$rule, $ruleName);
-                $finalRule = $ruleName[0][0];
-                if ($finalRule === "minlength" && strlen($value) < $ruleValue) {
-                    $this->canAdd = false;
-                    break;
-                }
-                if ($finalRule === "maxlength" && strlen($value) > $ruleValue) {
-                    $this->canAdd = false;
-                    break;
-                }
+                /*
+                 * required
+                 * min_length
+                 * max_length
+                 *
+                 */
+
             }
 
-            if (property_exists($this, $key) && in_array($key,$this->{"allowedFields"}) && $this->canAdd) {
-                $this->{$key} = $value;
-            }
         }
     }
 }

@@ -1,7 +1,9 @@
 {
     "name": "mvc/project",
     "type": "n",
-    "require": {},
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    },
 
     "autoload": {
         "psr-4": {

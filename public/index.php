@@ -1,11 +1,14 @@
 <?php
 
+session_start();
+
 use MVC\Core\Application;
 
 require __DIR__.'/../vendor/autoload.php';
 
 $app = new Application;
-session_start();
+
+echo $_ENV["NAME"];
 //Home Shit
 $app->get('/', 'HomeController@index');
 
@@ -13,4 +16,6 @@ $app->get('/', 'HomeController@index');
 $app->get('/register','RegisterController@index')
     ->post('/register', 'RegisterController@register');
 
+
 $app->resolve();
+

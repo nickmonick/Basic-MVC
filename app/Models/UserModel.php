@@ -21,8 +21,4 @@ class UserModel extends Model
      */
     public array $allowedFields = ["username", "password"];
 
-    public array $validation = [
-        "username" => "max_length[12]|min_length[4]",
-        "password" => "min_length[8]"
-    ];
 }

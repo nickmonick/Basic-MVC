@@ -4,9 +4,17 @@ declare(strict_types=1);
 
 namespace MVC\Core;
 
+use Dotenv;
 
 class Application extends Router
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,2));
+        $dotenv->load();
+    }
 
     /**
      * Gets the data from the router and outputs the content depending on what is sent back from it
