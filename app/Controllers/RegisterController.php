@@ -15,29 +15,37 @@ class RegisterController extends BaseController
     //(Example/Testing Controller To Test Model)
 
     private Request $request;
-    private UserModel $model;
 
     public function __construct()
     {
-        $this->model = new UserModel;
         $this->request = new Request;
     }
 
     public function index(): string
     {
-        return View::render('Register/index');
+        return  self::render('Register/index');
     }
 
     public function register(): string
     {
         $model = new UserModel($_POST);
-    /*
-        $tb = $model->tableName;
-        $model->query("INSERT INTO $tb (username,password) VALUES(:username, :password)");
-        $model->bind(":username", $model->username);
-        $model->bind(":password", password_hash($model->password,PASSWORD_BCRYPT));
-        $model->execute();
-    */
-        return "Registered";
+
+        $canPostUsername = ($model->required('username', $model->username) && $model->minLength("username",8,$model->username) && $model->maxLength('username', 16,$model->username));
+        $canPostPassword = ($model->required('password',$model->password) && $model->minLength("password",8,$model->password) && $model->maxLength("password",16,$model->password));
+
+        if (!$canPostUsername || !$canPostPassword) {
+            return self::render('Register/index',[
+                'usernameError' => $model->errors['username'] ?? "",
+                'passwordError' => $model->errors['password'] ?? "",
+            ]);
+        }
+
+        $query = $model->db->prepare("INSERT INTO $model->tableName (username,password) VALUES(:username, :password)");
+        $query->bindParam(":username", $model->username,PDO::PARAM_STR);
+        $hash = password_hash($model->password,PASSWORD_BCRYPT);
+        $query->bindParam(":password", $hash, PDO::PARAM_STR);
+        $query->execute();
+
+        return "Successfully Registered";
     }
 }

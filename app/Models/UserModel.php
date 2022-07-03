@@ -21,4 +21,16 @@ class UserModel extends Model
      */
     public array $allowedFields = ["username", "password"];
 
+    public array $errorMessages = [
+        'username' => [
+            'minlength' => 'The username must be more than % characters',
+            'maxlength' => 'The username must be under % characters',
+            'required' => 'This field is required',
+        ],
+        'password' => [
+            'minlength' => 'The password must be more than % characters',
+            'maxlength' => 'The password must be under % characters',
+            'required' => 'This field is required',
+        ],
+    ];
 }

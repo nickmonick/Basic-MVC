@@ -9,19 +9,24 @@ use PDOException;
 
 abstract class Database
 {
-    private string $host = 'localhost';
-    private string $dbUsername = 'root';
-    private string $dbPassword = '';
-    protected string $database = 'swift';
+    private string $host;
+    private string $dbUsername;
+    private string $dbPassword;
+    protected string $database ;
 
-    protected PDO $dbh;
+    public PDO $db;
 
     public function __construct()
     {
+        $this->host = $_ENV['db.HOST'];
+        $this->dbUsername = $_ENV['db.USERNAME'];
+        $this->dbPassword = $_ENV['db.PASSWORD'];
+        $this->database = $_ENV['db.DATABASE'];
+
         try {
-            $this->dbh = new PDO("mysql:host=$this->host;dbname=$this->database",$this->dbUsername,$this->dbPassword);
+            $this->db = new PDO("mysql:host=$this->host;dbname=$this->database",$this->dbUsername,$this->dbPassword);
         } catch (PDOException $e) {
-            echo "DB ERROR: $e";
+            echo "DATABASE ERROR: $e";
             die();
         }
     }

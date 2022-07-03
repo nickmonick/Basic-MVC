@@ -9,6 +9,7 @@ use PDO;
 
 abstract class Model extends Database
 {
+    use Validation;
     /**
      * Gets all the columns in the given table name given from the model and adds properties that can be used from the models object
      */
@@ -17,7 +18,7 @@ abstract class Model extends Database
     {
         parent::__construct();
         $tableName = $this->{"tableName"};
-        $stmt = $this->dbh->query( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$tableName."'", PDO::FETCH_OBJ );
+        $stmt = $this->db->query( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$tableName."'", PDO::FETCH_OBJ );
         $columns = $stmt->fetchAll();
         foreach ($columns as $column) {
             if ($column->TABLE_SCHEMA === $this->database) {
@@ -37,22 +38,12 @@ abstract class Model extends Database
      * @param array $data
      * @return void
      */
-    public function loadData (array $data): void
+    private function loadData (array $data): void
     {
         foreach ($data as $key => $value) {
-            $this->canAdd = true;
-            $currentRules = explode("|",$this->{"validation"}[$key]);
-
-            foreach ($currentRules as $rule) {
-                /*
-                 * required
-                 * min_length
-                 * max_length
-                 *
-                 */
-
+            if (property_exists($this, $key) && in_array($key,$this->{"allowedFields"})) {
+                $this->{$key} = $value;
             }
-
         }
     }
 }

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace MVC\Controller;
 
 use MVC\Core\BaseController;
-use MVC\Core\Database;
 use MVC\Core\Request;
-use MVC\Core\View;
 use MVC\Model\UserModel;
 
 class HomeController extends BaseController
 {
     private Request $request;
+
     public function __construct()
     {
         $this->request = new Request;
@@ -20,11 +19,12 @@ class HomeController extends BaseController
 
     public function index(): string
     {
-        return View::render('Home/index',['title' => "Welcome User"]);
+        $model = new UserModel();
+        return self::render('Home/index',['title' => "Welcome ".$_ENV["NAME"]]);
     }
 
-    public function post()
+    public function post(): string
     {
-        return json_encode('Posted Successfully!');
+        return json_encode('Hello World!');
     }
 }

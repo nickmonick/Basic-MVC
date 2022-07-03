@@ -4,21 +4,38 @@ declare(strict_types=1);
 
 namespace MVC\Core;
 
-class Validation
+trait Validation
 {
-    public function minLength(int $length, string $field): bool
+    public function minLength(string $field, int $length, string $value): bool
     {
-        return strlen($field) < $length;
+        $valid = strlen($value) > $length;
+        if (!$valid) {
+            $this->{"errors"}[$field] = str_replace("%", "$length",$this->{'errorMessages'}[$field]['minlength'] ?? "ERROR");
+        }
+
+        return $valid;
     }
 
-    public function maxLength(int $length, string $field): bool
+    public function maxLength(string $field, int $length, string $value): bool
     {
-        return strlen($field) > $length;
+        $valid = strlen($value) < $length;
+
+        if (!$valid) {
+            $this->{"errors"}[$field] = str_replace("%", "$length",$this->{'errorMessages'}[$field]['maxlength'] ?? "ERROR");
+        }
+
+        return $valid;
     }
 
-    public function required(string $field): bool
+    public function required(string $field, string $value): bool
     {
-        return !empty($field);
+        $valid = !empty($value);
+
+        if (!$valid) {
+            $this->{"errors"}[$field] = $this->{"errorMessages"}[$field]['required'] ?? "ERROR";
+        }
+
+        return $valid;
     }
 
 }

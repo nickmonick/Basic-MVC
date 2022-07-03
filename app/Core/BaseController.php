@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MVC\Core;
 
-abstract class BaseController
+abstract class BaseController extends View
 {
     /**
      * Automatically escapes data weather it is an array or a string
