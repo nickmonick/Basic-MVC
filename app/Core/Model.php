@@ -16,6 +16,7 @@ abstract class Model extends Database
 
     public function __construct(array $data = null)
     {
+        $this->{"valid"} = null;
         parent::__construct();
         $tableName = $this->{"tableName"};
         $stmt = $this->db->query( "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '".$tableName."'", PDO::FETCH_OBJ );

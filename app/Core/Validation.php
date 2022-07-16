@@ -6,36 +6,45 @@ namespace MVC\Core;
 
 trait Validation
 {
-    public function minLength(string $field, int $length, string $value): bool
+    public function minLength(array $fields, array $lengths, array $values): object
     {
-        $valid = strlen($value) > $length;
-        if (!$valid) {
-            $this->{"errors"}[$field] = str_replace("%", "$length",$this->{'errorMessages'}[$field]['minlength'] ?? "ERROR");
+        for ($i = 0;$i < sizeof($fields); $i++) {
+
+            $valid = strlen($values[$i]) > $lengths[$i];
+            if (!$valid) {
+                $this->{"valid"} = false;
+                $this->{"errors"}[$fields[$i]] = str_replace("%", "$lengths[$i]",$this->{'errorMessages'}[$fields[$i]]['minlength'] ?? "ERROR");
+            }
         }
 
-        return $valid;
+        return $this;
     }
 
-    public function maxLength(string $field, int $length, string $value): bool
+    public function maxLength(array $fields, array $lengths, array $values): object
     {
-        $valid = strlen($value) < $length;
-
-        if (!$valid) {
-            $this->{"errors"}[$field] = str_replace("%", "$length",$this->{'errorMessages'}[$field]['maxlength'] ?? "ERROR");
+        for ($i = 0; $i < sizeof($fields); $i++) {
+            $valid = strlen($values[$i]) < $lengths[$i];
+            if (!$valid) {
+                $this->{"valid"} = false;
+                $this->{"errors"}[$fields[$i]] = str_replace("%", "$lengths[$i]",$this->{'errorMessages'}[$fields[$i]]['maxlength'] ?? "ERROR");
+            }
         }
 
-        return $valid;
+        return $this;
     }
 
-    public function required(string $field, string $value): bool
+    public function required(array $fields, array $values): object
     {
-        $valid = !empty($value);
+        for ($i = 0; $i < sizeof($fields); $i++) {
+            $valid = !empty($values[$i]);
 
-        if (!$valid) {
-            $this->{"errors"}[$field] = $this->{"errorMessages"}[$field]['required'] ?? "ERROR";
+            if (!$valid) {
+                $this->{"valid"} = false;
+                $this->{"errors"}[$fields[$i]] = $this->{"errorMessages"}[$fields[$i]]['required'] ?? "ERROR";
+            }
         }
 
-        return $valid;
+        return $this;
     }
 
 }

@@ -1,16 +1,13 @@
 <?php
-
+require __DIR__.'/../vendor/autoload.php';
+error_reporting(E_ALL);
+set_exception_handler('MVC\Core\Error::exceptionHandler');
 session_start();
 
 use MVC\Core\Application;
 
-require __DIR__.'/../vendor/autoload.php';
-
 $app = new Application;
 
-echo "<pre>";
-var_dump();
-echo "</pre>";
 //Home Shit
 $app->get('/', 'HomeController@index');
 
