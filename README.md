@@ -24,7 +24,7 @@ The method added to routes are class that are to be created in the app/Controlle
 "-" = Work In Progress
 
 - Add Database Integration/Functionality - [x]
-- Add Models- [-]
+- Add Models- [x]
 - Add View layouts- [-]
 - Add more middleware- [ ]
 - Better/More Error Handling- [-]
