@@ -59,7 +59,6 @@ class RegisterController extends BaseController
         $idQuery->execute();
         $id = $idQuery->fetch(PDO::FETCH_ASSOC);
 
-        var_dump($id);
 
         return "Successfully Registered";
     }
