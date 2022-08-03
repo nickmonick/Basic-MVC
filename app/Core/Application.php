@@ -63,4 +63,34 @@ class Application extends Router
 
         return $this;
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function put(string $uri, string $action): Application
+    {
+        $this->add('put', $uri, $action);
+
+        return $this;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function patch(string $uri, string $action): Application
+    {
+        $this->add('patch', $uri, $action);
+
+        return $this;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function delete(string $uri, string $action): Application
+    {
+        $this->add('delete', $uri, $action);
+
+        return $this;
+    }
 }

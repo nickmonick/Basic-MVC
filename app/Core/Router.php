@@ -47,15 +47,18 @@ class Router
     protected function add(string $method, string $uri, string $action): void
     {
         $valid = match ($method) {
-            "get", "post" => true,
+            'get', 'post', 'put', 'patch', 'delete' => true,
             default => false
         };
 
         if (!$valid)
-            throw new Exception('Invalid Method');
+            throw new Exception('Invalid Request Method');
 
         if (!$this->getClassAndMethod("$action"))
             throw new Exception('Invalid Class or Action');
+
+        if (!str_starts_with('/',$uri))
+            throw new Exception('Invalid URI');
 
         $this->routes[$method][$uri] = $action;
     }

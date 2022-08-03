@@ -8,10 +8,10 @@ use MVC\Core\Application;
 
 $app = new Application;
 
-//Home Shit
+//HomeShit
 $app->get('/', 'HomeController@index');
 
-//Register Bullshit
+//RegisterBullshit
 $app->get('/register','RegisterController@index')
     ->post('/register', 'RegisterController@register');
 

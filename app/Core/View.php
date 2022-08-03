@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MVC\Core;
 
-class View
+class View extends Request
 {
     /**
      * Checks if a given file in the "views" folder exists and returns its content if found

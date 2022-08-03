@@ -15,18 +15,18 @@ class Request
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
-    public function isPost(): bool
-    {
-        return $this->getMethod() === 'post';
-    }
-
-    public function isGet(): bool
-    {
-        return $this->getMethod() === 'get';
-    }
-
     public function getPost(): array
     {
         return $_POST;
+    }
+
+    public function getGet(): array
+    {
+        return $_GET;
+    }
+
+    public function getIp(): string
+    {
+        return $_SERVER['REMOTE_ADDR'];
     }
 }
