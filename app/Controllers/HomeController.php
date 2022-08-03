@@ -10,12 +10,6 @@ use MVC\Model\UserModel;
 
 class HomeController extends BaseController
 {
-    private Request $request;
-
-    public function __construct()
-    {
-        $this->request = new Request;
-    }
 
     public function index(): string
     {
@@ -25,6 +19,7 @@ class HomeController extends BaseController
 
     public function post(): string
     {
+        echo $this->getIp();
         return json_encode('Hello World!');
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace MVC\Core;
 
-class Request
+abstract class Request
 {
     public function getUri(): string
     {

@@ -14,13 +14,6 @@ class RegisterController extends BaseController
 {
     //(Example/Testing Controller To Test Model)
 
-    private Request $request;
-
-    public function __construct()
-    {
-        $this->request = new Request;
-    }
-
     public function index(): string
     {
         return  self::render('Register/index');
